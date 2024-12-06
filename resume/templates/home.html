@@ -1,11 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>H_HGroup</title>
-</head>
-<body>
-    <h1>hi Test</h1>
-</body>
-</html>
+{% extends "base.html" %}
+{% load static  %}
+
+{% block title %} H_H Group {% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+{% endblock css %}
+
+{% block body %}
+
+    <h1 class="h1"> this is home page </h1>
+    
+   
+{% endblock body %}
