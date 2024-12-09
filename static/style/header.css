@@ -7,6 +7,10 @@ a{
     list-style: none;
     text-decoration: none;
 }
+li:hover{
+    cursor: pointer;
+    color: blue;
+}
 
 /* header style */
 
