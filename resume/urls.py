@@ -1,7 +1,9 @@
 from django.urls import path  
-from .views import home, ADMIN_CHAT  
+from .views import Home, UserLogin, UserLogout, AdminChat
 
 urlpatterns = [  
-    path('', home, name='home'), 
-    path('contact/', ADMIN_CHAT, name='ADMIN_CHAT'), 
-]
+    path('', Home, name='Home'),
+    path('AdminChat/', AdminChat, name='AdminChat'), 
+    path('UserLogout/', UserLogout, name='UserLogout'),
+    path('UserLogin/', UserLogin, name='UserLogin'),  
+]  

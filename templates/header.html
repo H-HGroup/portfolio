@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 {% load static  %}
+{% csrf_token %}
 
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block css %}  
-        <link rel="stylesheet" href="{% static 'style/style.css' %}"> 
+        <link rel="stylesheet" href="{% static 'style/header.css' %}"> 
     {% endblock css %}
 </head>
 <body>
@@ -15,15 +16,50 @@
         <div class="navbar">
 
             <ul>
-                <li><a> خانه </a></li>
-                <li><a> ورود </a></li>
-                <li><a> خروج از سایت </a></li>
-                <li><a> تماس با ما </a></li>
-                <li><a> چت ادمین  </a></li>
-                <li><a>  درباره ما  </a></li>
+                <li><a> home </a></li>
+                {% if user.is_authenticated %}
+                <li> <a href="{% url 'UserLogout' %}">Logout</a>  </li>
+                {% else %}
+                     <li class="login-show"><a> login </a></li>
+                {% endif %}  
+                {% if user.is_superuser %}
+                    <li><a href="{% url 'AdminChat' %}"> admin_caht  </a></li>
+                {% else %}
+                    <li><a> contact us </a></li>
+                {% endif %}
+                <li><a>  about us  </a></li>
             </ul>
             
         </div>
+
+
+
+        <div class="modal-bg">
+            <div class="modal">
+                <div class="modal-header">
+                    <p> login </p>
+                    <span class="close-modal"> &times; </span>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'UserLogin' %}">
+                        {% csrf_token %}
+                        <div class="username">
+                            <input type="text" placeholder="username" name="username" required>
+                        </div>
+                        <div class="password">
+                            <input type="password" placeholder="password" name="password" required>
+                        </div>
+                        <div class="submit_button">
+                            <button type="submit"> login </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="../static/js/login.js"></script>
+
 
 
     {% endblock body %}
