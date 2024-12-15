@@ -17,6 +17,21 @@ def UserLogout(request):
     logout(request)  
     return redirect('Home')  
 
+# def UserLogin(request):  
+#     if request.method == 'POST':  
+#         form = UserLoginForm(request.POST)  
+#         if form.is_valid():  
+#             data = form.cleaned_data  
+#             user = authenticate(request, username=data['username'], password=data['password'])  
+
+#             if user is not None:  
+#                 login(request, user)  
+#                 return redirect('AdminChat')
+  
+from django.shortcuts import render, redirect  
+from django.contrib.auth import login, authenticate  
+from .forms import UserLoginForm  
+
 def UserLogin(request):  
     if request.method == 'POST':  
         form = UserLoginForm(request.POST)  
@@ -26,6 +41,14 @@ def UserLogin(request):
 
             if user is not None:  
                 login(request, user)  
-                return redirect('AdminChat')
-  
+                if user.is_superuser:  
+                    return redirect('AdminChat')  
+                else:  
+                    return redirect('Home')   
+
+        return render(request, 'home.html', {'form': form, 'error': 'نام کاربری یا رمز عبور نامعتبر است'})   
+
+    else:  
+        form = UserLoginForm()  
+        return render(request, 'home.html', {'form': form})
 
