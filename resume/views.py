@@ -1,36 +1,20 @@
 from django.shortcuts import render, redirect
-# from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
-from .forms import *
+from .forms import UserLoginForm  
+
 
 def Home(request):
     return render(request, "home.html")
 
+
 def AdminChat(request):
     return render(request,'chat.html')
-
-
-
 
 
 def UserLogout(request):  
     logout(request)  
     return redirect('Home')  
 
-# def UserLogin(request):  
-#     if request.method == 'POST':  
-#         form = UserLoginForm(request.POST)  
-#         if form.is_valid():  
-#             data = form.cleaned_data  
-#             user = authenticate(request, username=data['username'], password=data['password'])  
-
-#             if user is not None:  
-#                 login(request, user)  
-#                 return redirect('AdminChat')
-  
-from django.shortcuts import render, redirect  
-from django.contrib.auth import login, authenticate  
-from .forms import UserLoginForm  
 
 def UserLogin(request):  
     if request.method == 'POST':  
@@ -52,3 +36,6 @@ def UserLogin(request):
         form = UserLoginForm()  
         return render(request, 'home.html', {'form': form})
 
+
+def ContactUs(request):
+    return render(request, 'contact.html')
