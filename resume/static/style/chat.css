@@ -1,5 +1,4 @@
 
-
 .container{
     position: relative;
     margin:20px auto;
@@ -21,14 +20,14 @@
     display: flex;
     flex-direction: column;
     border-right: 1px solid rgb( 205, 205 ,205);
-    background-color: white;
+    background-color: rgb(234, 234, 234);
 }
 .container .left-side .setting{
     position: relative;
     top:0;
     left:0;
-    width: 100%;
-    height: 10%;
+    height: 80px;
+    padding-left: 24px;
     background-color: rgb(212 , 212 , 248);
     display: flex;
     align-items: center;
@@ -36,11 +35,10 @@
 }
 .container .left-side .setting .admin-pic{
     position: relative;
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     border-radius: 100%;
     overflow: hidden;
-    background-color: white;
 }
 .container .left-side .setting .admin-pic img{
     position: relative;
@@ -109,54 +107,6 @@
 .container .left-side .setting .setting-icons .setting-menu:hover > span{
     background-color: rgba(0,0,0,.8);
 }
-.container .left-side .setting  .setting-modal{
-    position: absolute;
-    top:50px;
-    left:280px;
-    width: 150px;
-    height: 150px;
-    box-shadow: 0 0 5px gray;
-    background-color: white;
-    border-radius: 5px;
-    z-index: 1;
-    animation:settingModalShow .2s ease-in-out;
-    display: none;
-}
-.container .left-side .setting  .setting-modal.show{
-    display: block;
-}
-@keyframes settingModalShow {
-    0%{
-        opacity: .5;
-        transform:scale(.5);
-    }
-}
-.container .left-side .setting  .setting-modal a{
-    position: relative;
-    top:0;
-    left:0;
-    width: 100%;
-    height: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    color:rgba(0,0,0,.8);
-    font-size:20px;
-}
-.container .left-side .setting  .setting-modal a:hover{
-    cursor: pointer;
-    background-color: gray;
-}
-.container .left-side .customers{
-    position: relative;
-    top:0;
-    left:0;
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
 .container .left-side .customers .user{
     position: relative;
     width: 100%;
@@ -188,11 +138,9 @@
 }
 .container .left-side .customers .user .user-info .user-email{
     color:rgba(0,0,0,.8);
-    font-family: Arial, Helvetica, sans-serif;
 }
 .container .left-side .customers .user .user-info .user-number{
     color:rgba(0,0,0,.8);
-    font-family: Arial, Helvetica, sans-serif;
     margin-top: 3px;
 }
 .container .left-side .customers .user .icon{
@@ -227,6 +175,7 @@
     flex-direction: column;
 }
 .container .right-side .header{
+    height: 80px;
     position: relative;
     top:0;
     left:0;
@@ -282,12 +231,13 @@
     border:none;
     outline:none;
     font-size:15px;
-    font-family:Arial, Helvetica, sans-serif;
-    direction:rtl;
+    padding: 16px;
+    
 }
 .container .right-side .footer .send-message svg{
     transform:rotate(180deg);
     opacity:.3;
+    padding: 16px;
 }
 .container .right-side .footer .send-message:hover{
     cursor:pointer;
@@ -336,7 +286,7 @@
 }
 .container .right-side .body .sent-chat-box-parent .sent-chat-box .admin-pic{
     position: absolute;
-    top:10%;
+    top:8px;
     left:80%;
     width: 40px;
     height: 40px;
@@ -361,12 +311,12 @@
     background-color: rgb(30, 48, 64);
     display: flex;
     align-items: center;
-    justify-content: right;
+    justify-content: left;
     font-size: 17px;
     color:white;
 }
 .container .right-side .body .sent-chat-box-parent .sent-chat-box .header p{
-    margin-right:60px;
+    margin-left: 8px;
 }
 .container .right-side .body .sent-chat-box-parent .sent-chat-box .body{
     position: relative;
@@ -381,7 +331,6 @@
     word-break: break-all;
     box-sizing: border-box;
     padding: 20px 5px 5px 5px;
-    direction:rtl;
 }
 .container .right-side .body .received-chat-box-parent{
     position:relative;
@@ -438,5 +387,4 @@ margin-left:10px;
     padding:10px;
     display: flex;
     box-sizing:border-box;
-    direction:rtl;
 }
