@@ -1,6 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from .forms import UserLoginForm  
+from .models import Connection
+from account.models import User
+import json
+from django.http import JsonResponse
+import random
+
+
 
 
 def Home(request):
@@ -39,3 +46,29 @@ def UserLogin(request):
 
 def ContactUs(request):
     return render(request, 'contact.html')
+
+
+
+def ConnectionToAdmin(request):
+    data = json.loads(request.body)
+    hasRecord = Connection.objects.filter(userName = data['userName'], userNumber = data['userNumber']).exists()
+
+    admin = User.objects.filter(is_staff = True, online = True)
+    if(len(admin)>1):
+        admin = admin[random.randint(0, len(admin)-1)]
+    elif(len(admin)==1):
+        admin = admin[0]
+    else:
+        admin = 'offline'
+
+
+    if hasRecord:
+        Connection.objects.filter(userName = data['userName'], userNumber = data['userNumber']).delete()
+        Connection.objects.create(userName = data['userName'], userNumber = data['userNumber'], admin = admin)
+        return JsonResponse({'connection status':'delet and connect', 'admin is':str(admin)})
+    else:
+        Connection.objects.create(userName = data['userName'], userNumber = data['userNumber'], admin = admin)
+        return JsonResponse({'connection status':'connect', 'admin is':str(admin)})
+
+
+
