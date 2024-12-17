@@ -9,6 +9,7 @@ import random
 
 
 
+# link pages
 
 def Home(request):
     return render(request, "home.html")
@@ -17,11 +18,20 @@ def Home(request):
 def AdminChat(request):
     return render(request,'chat.html')
 
+def ContactUs(request):
+    return render(request, 'contact.html')
+
+
+
+#  user logout
 
 def UserLogout(request):  
     logout(request)  
     return redirect('Home')  
 
+
+
+# user login 
 
 def UserLogin(request):  
     if request.method == 'POST':  
@@ -44,10 +54,9 @@ def UserLogin(request):
         return render(request, 'home.html', {'form': form})
 
 
-def ContactUs(request):
-    return render(request, 'contact.html')
 
 
+#  connect customer to admin
 
 def ConnectionToAdmin(request):
     data = json.loads(request.body)

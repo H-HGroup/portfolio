@@ -5,10 +5,10 @@ let userInfo = document.querySelector('.user-info')
 
 
 
+/////////// connection //////////////
 
 
-//connection
-
+// ajax code fron django document
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -26,9 +26,10 @@ function getCookie(name) {
 }
 const csrftoken = getCookie('csrftoken');
 
-
+ 
 array=[];
 
+// send username and user number to backend
 function connection(name, number) {
     fetch('http://127.0.0.1:8000/ConnectionToAdmin/', {
         method:'POST',
@@ -43,12 +44,13 @@ function connection(name, number) {
     .then (data=>{
         console.log(data);
         userInfo.remove();
+        // add username and usernumber to local storage
         localStorage.setItem('user',JSON.stringify(array));
     })
     
 }
 
-
+// send button action
 sendButton.addEventListener('click',()=>{
     nameValue = userName.value;
     numerValue = number.value;
@@ -58,10 +60,10 @@ sendButton.addEventListener('click',()=>{
 
 
     connection(numerValue, nameValue)
-    
+   
 })
 
-
+// remove userInfo box even after refresh
 let userInfoRemover = () =>{
     if(localStorage.getItem('user')){
         userInfo.remove()
@@ -70,6 +72,6 @@ let userInfoRemover = () =>{
 userInfoRemover();
 
 
-
+/////////// end connection //////////////
 
 
