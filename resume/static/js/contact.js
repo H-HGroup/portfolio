@@ -1,7 +1,10 @@
+const adminStatus = document.querySelector('.admin_status');
+const sendMassageButton = document.querySelector('.send_icon');
+const massegeText = document.querySelector('.text');
 let number = document.querySelector('.number');
 let userName = document.querySelector('.name');
-let sendButton = document.querySelector('.send-info-button');
-let userInfo = document.querySelector('.user-info')
+let sendInfoButton = document.querySelector('.send-info-button');
+let userInfo = document.querySelector('.user-info');
 
 
 
@@ -46,21 +49,29 @@ function connection(name, number) {
         userInfo.remove();
         // add username and usernumber to local storage
         localStorage.setItem('user',JSON.stringify(array));
+        // add admin to local storage
+        localStorage.setItem('admin',JSON.stringify(data.admin));
+
+        if (JSON.parse(localStorage.getItem('admin'))==='offline') {
+            adminStatus.firstElementChild.innerHTML = 'sorry, admin is offline. We will respond soon.'
+        }
+         else {
+           adminStatus.firstElementChild.innerHTML = `you are connected to ${data.admin}`
+            
+        }
     })
     
 }
 
 // send button action
-sendButton.addEventListener('click',()=>{
+sendInfoButton.addEventListener('click',()=>{
     nameValue = userName.value;
     numerValue = number.value;
     array.push({'username':nameValue, 'usernumber':numerValue})
     userName.value = "";
     number.value = "";
 
-
-    connection(numerValue, nameValue)
-   
+    connection(numerValue, nameValue)   
 })
 
 // remove userInfo box even after refresh
@@ -68,10 +79,37 @@ let userInfoRemover = () =>{
     if(localStorage.getItem('user')){
         userInfo.remove()
     }
+    
+    if (JSON.parse(localStorage.getItem('admin'))==='offline') {
+        adminStatus.firstElementChild.innerHTML = 'sorry, admin is offline. We will respond soon.'
+    }
+     else {
+       adminStatus.firstElementChild.innerHTML = `you are connected to ${JSON.parse(localStorage.getItem('admin'))}`
+        
+    }
 }
 userInfoRemover();
 
 
-/////////// end connection //////////////
+///// end connection /////
 
 
+/////////// send massage ////////////////
+
+sendMassageButton.addEventListener('click',()=>{
+    if(localStorage.getItem('user') && massegeText.value.length > 0){
+            fetch('http://127.0.0.1:8000/SendMassage/', {
+                method:'POST',
+                headers:{
+                    'Connect-Type':'application/json',
+                    'X-CSRFToken' : csrftoken,
+                },
+                body:JSON.stringify({msg:massegeText.value, senderName:JSON.parse(localStorage.getItem('user'))[0].userName, senderNumber:JSON.parse(localStorage.getItem('user'))[0].userNumber, reciver:JSON.parse(localStorage.getItem('admin'))}),
+        
+            })
+            .then (res=>res.json())
+            .then (data=>{
+                console.log(data);
+            })
+    }
+})

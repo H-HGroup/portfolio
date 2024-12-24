@@ -74,10 +74,14 @@ def ConnectionToAdmin(request):
     if hasRecord:
         Connection.objects.filter(userName = data['userName'], userNumber = data['userNumber']).delete()
         Connection.objects.create(userName = data['userName'], userNumber = data['userNumber'], admin = admin)
-        return JsonResponse({'connection status':'delet and connect', 'admin is':str(admin)})
+        return JsonResponse({'connection status':'delet and connect', 'admin':str(admin)})
     else:
         Connection.objects.create(userName = data['userName'], userNumber = data['userNumber'], admin = admin)
-        return JsonResponse({'connection status':'connect', 'admin is':str(admin)})
+        return JsonResponse({'connection status':'connect', 'admin':str(admin)})
 
 
 
+#  send massage from customer to admin
+
+def SendMassage(request):
+    return JsonResponse({'massage':'true'})
