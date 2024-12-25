@@ -6,7 +6,18 @@ from account.models import User
 import json
 from django.http import JsonResponse
 import random
+from rest_framework import permissions, viewsets
+from .serializers import UserSerializer
+from django.contrib.auth import get_user_model  
+from rest_framework import viewsets, permissions  
 
+
+User = get_user_model()
+
+class UserViewSet(viewsets.ModelViewSet):  
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer  
+    permission_classes = [permissions.IsAuthenticated] 
 
 
 # link pages

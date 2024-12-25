@@ -3,5 +3,5 @@ from .models import Connection, Masseges
 
 # Register your models here.
 
-admin.site.register([Connection])
-admin.site.register([Masseges])
+admin.site.register([Connection, Masseges])
+
