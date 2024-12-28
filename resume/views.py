@@ -1,15 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from .forms import UserLoginForm  
-from .models import Connection
+from .models import Connection, Education, Experience, Projects, Masseges
 from account.models import User
 import json
 from django.http import JsonResponse
 import random
 from rest_framework import permissions, viewsets
-from .serializers import UserSerializer
+from .serializers import UserSerializer, EducationSerializer, ExperienceSerializer, ProjectsSerializer
 from django.contrib.auth import get_user_model  
 from rest_framework import viewsets, permissions  
+from rest_framework import generics
+from django.views.decorators.csrf import csrf_exempt  
+import logging
 
 
 User = get_user_model()
@@ -33,6 +36,18 @@ def ContactUs(request):
     return render(request, 'contact.html')
 
 
+class ProjectsApiView(generics.ListAPIView):
+    queryset = Projects.objects.order_by('order').all()
+    serializer_class = ProjectsSerializer
+    
+class EducationApiView(generics.ListAPIView):
+    queryset = Education.objects.order_by('order').all()
+    serializer_class = EducationSerializer
+
+class ExperienceApiView(generics.ListAPIView):
+    queryset = Experience.objects.order_by('order').all()
+    serializer_class = ExperienceSerializer
+    
 
 #  user logout
 
@@ -94,5 +109,40 @@ def ConnectionToAdmin(request):
 
 #  send massage from customer to admin
 
-def SendMassage(request):
-    return JsonResponse({'massage':'true'})
+  
+
+logger = logging.getLogger(__name__)  
+
+
+def SendMassage(request):  
+    if request.method == 'POST':  
+        try:  
+            logger.info(f'Received body: {request.body}')  
+            data = json.loads(request.body)  
+
+            required_fields = ['msg', 'senderName', 'senderNumber', 'reciver']  
+            for field in required_fields:  
+                if field not in data:  
+                    return JsonResponse({'error': f'Missing field: {field}'}, status=400)  
+
+            save_massage = Masseges.objects.create(  
+                massegeText=data['msg'],  
+                senderName=data['senderName'],  
+                senderNumber=data['senderNumber'], 
+                reciver=data['reciver']  
+            )  
+
+            return JsonResponse({  
+                'massage': save_massage.massegeText,  
+                'senderName': save_massage.senderName,  
+                'reciver': save_massage.reciver,  
+                'time': save_massage.creat.time()  
+            }, safe=True)  
+
+        except json.JSONDecodeError:  
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)  
+        except Exception as e:  
+            logger.error(f'Error saving message: {e}')  
+            return JsonResponse({'error': 'Internal Server Error'}, status=500)  
+    else:  
+        return JsonResponse({'error': 'Invalid request method'}, status=405)

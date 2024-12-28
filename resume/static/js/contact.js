@@ -62,6 +62,7 @@ function connection(name, number) {
     })
     
 }
+ 
 
 // send button action
 sendInfoButton.addEventListener('click',()=>{
@@ -104,8 +105,12 @@ sendMassageButton.addEventListener('click',()=>{
                     'Connect-Type':'application/json',
                     'X-CSRFToken' : csrftoken,
                 },
-                body:JSON.stringify({msg:massegeText.value, senderName:JSON.parse(localStorage.getItem('user'))[0].userName, senderNumber:JSON.parse(localStorage.getItem('user'))[0].userNumber, reciver:JSON.parse(localStorage.getItem('admin'))}),
-        
+                body: JSON.stringify({  
+                    msg: massegeText.value,  
+                    senderName: JSON.parse(localStorage.getItem('user'))[0].username,
+                    senderNumber: JSON.parse(localStorage.getItem('user'))[0].usernumber,  
+                    reciver: JSON.parse(localStorage.getItem('admin'))  
+                }),          
             })
             .then (res=>res.json())
             .then (data=>{
